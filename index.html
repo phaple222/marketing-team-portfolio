@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Wireframe Portfolio - Marketing Freelance Team</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ===== Design system: Claude (warm, serif, terracotta) x Apple (spacious, sans, precise) ===== */
+    --bg:#faf9f5;
+    --surface:#ffffff;
+    --surface-2:#f3f0e8;
+    --ph-bg:#efece2;
+    --ph-line:#ded8c8;
+    --ink:#211f1d;
+    --muted:#75726b;
+    --line:rgba(33,31,29,0.09);
+    --accent:#cc785c;
+    --accent-ink:#ffffff;
+    --accent-soft:#f3e3da;
+    --radius-lg:24px;
+    --radius-md:16px;
+    --radius-sm:10px;
+    --shadow-sm:0 2px 10px rgba(33,31,29,0.05);
+    --shadow-md:0 12px 32px rgba(33,31,29,0.09);
+    --shadow-lg:0 24px 60px rgba(33,31,29,0.14);
+    --serif:'Source Serif 4', Georgia, 'Iowan Old Style', serif;
+    --sans:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', Helvetica, Arial, sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:500;letter-spacing:-0.01em;}
+
+  /* placeholder block — nội dung chưa có, thay ảnh/video thật vào sau */
+  .ph{
+    background:
+      linear-gradient(135deg, transparent 47%, var(--ph-line) 47%, var(--ph-line) 53%, transparent 53%),
+      var(--ph-bg);
+    background-size:22px 22px;
+    border:1px solid var(--ph-line);
+    color:var(--muted);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;text-align:center;padding:10px;border-radius:var(--radius-md);
+    font-family:var(--sans);
+  }
+
+  /* top nav — kiểu Apple: sticky, kính mờ (backdrop blur) */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,249,245,0.72);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;padding:16px 40px;
+  }
+  .logo{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-0.01em;}
+  .navlinks{display:flex;gap:4px;background:rgba(33,31,29,0.04);padding:4px;border-radius:999px;}
+  .navlinks button{
+    background:none;border:none;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer;
+    padding:8px 18px;border-radius:999px;transition:all .25s var(--ease);font-family:var(--sans);
+  }
+  .navlinks button.active{color:var(--ink);background:var(--surface);box-shadow:var(--shadow-sm);}
+  .navlinks button:hover{color:var(--ink);}
+  .cta-btn{
+    background:var(--accent);color:var(--accent-ink);padding:10px 22px;border-radius:999px;
+    font-size:13.5px;font-weight:600;border:none;cursor:pointer;transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+    font-family:var(--sans);
+  }
+  .cta-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+
+  .page{display:none;max-width:1180px;margin:0 auto;padding:48px 40px 90px;}
+  .page.active{display:block;animation:fadein .4s var(--ease);}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .label-tag{
+    display:inline-block;font-size:11.5px;font-weight:600;color:var(--accent);
+    text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;font-family:var(--sans);
+  }
+  h1.section-title{font-size:30px;margin:0 0 8px;}
+  p.section-sub{color:var(--muted);font-size:15px;margin:0 0 32px;max-width:640px;line-height:1.55;}
+
+  section{margin-bottom:76px;}
+
+  /* HOME hero */
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:48px 0 24px;}
+  .hero h1{font-size:40px;line-height:1.2;margin:0 0 18px;}
+  .hero p{color:var(--muted);font-size:16px;margin:0 0 26px;line-height:1.6;}
+  .hero-ctas{display:flex;gap:12px;}
+  .btn-outline{
+    border:1px solid rgba(33,31,29,0.18);padding:10px 22px;border-radius:999px;font-size:13.5px;
+    font-weight:600;transition:all .25s var(--ease);background:var(--surface);
+  }
+  .btn-outline:hover{border-color:var(--ink);transform:translateY(-1px);}
+  .hero .ph{height:340px;font-weight:500;border-radius:var(--radius-lg);}
+
+  /* services */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .service-card{
+    border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px;background:var(--surface);
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .service-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+  .service-card .ph{height:130px;margin-bottom:18px;}
+  .service-card h3{font-size:17px;margin:0 0 8px;}
+  .service-card p{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.5;}
+  .service-card span.link{font-size:13px;font-weight:600;color:var(--accent);}
+
+  /* stats */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .stat{
+    text-align:center;padding:30px 10px;background:var(--surface-2);border-radius:var(--radius-md);
+  }
+  .stat .num{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--accent);}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:6px;}
+
+  /* team */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .team-card{
+    border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;text-align:center;background:var(--surface);
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .team-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+  .team-card .ph{height:140px;border-radius:50%;width:140px;margin:0 auto 16px;}
+  .team-card h4{font-size:14.5px;margin:0 0 3px;}
+  .team-card .role{font-size:12px;color:var(--accent);font-weight:600;margin-bottom:10px;font-family:var(--sans);}
+  .team-card .skills{font-size:11.5px;color:var(--muted);}
+
+  /* testimonial */
+  .testi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .testi-card{
+    border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;background:var(--surface-2);
+    font-size:13.5px;color:var(--muted);line-height:1.6;font-family:var(--serif);font-style:italic;
+  }
+  .testi-card .who{margin-top:14px;font-weight:700;color:var(--ink);font-size:12px;font-family:var(--sans);font-style:normal;}
+
+  /* filter tabs (Design / Video) */
+  .filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .filter-tabs .tab{
+    border:1px solid var(--line);padding:8px 18px;border-radius:999px;font-size:12.5px;font-weight:600;
+    color:var(--muted);cursor:pointer;background:var(--surface);transition:all .2s var(--ease);
+  }
+  .filter-tabs .tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .filter-tabs .tab:hover{border-color:var(--ink);}
+
+  /* design masonry-ish grid */
+  .design-grid{columns:4;column-gap:18px;}
+  .design-grid .ph{width:100%;margin-bottom:18px;break-inside:avoid;border-radius:var(--radius-md);transition:transform .3s var(--ease);}
+  .design-grid .ph:hover{transform:translateY(-3px);}
+  .design-grid .h1{height:200px;} .design-grid .h2{height:260px;} .design-grid .h3{height:160px;} .design-grid .h4{height:220px;}
+
+  .loadmore{
+    display:block;margin:34px auto 0;border:1px solid rgba(33,31,29,0.18);padding:11px 28px;border-radius:999px;
+    background:var(--surface);font-size:13.5px;font-weight:600;cursor:pointer;transition:all .25s var(--ease);
+  }
+  .loadmore:hover{border-color:var(--ink);transform:translateY(-1px);}
+
+  /* video category blocks */
+  .video-cat{margin-bottom:44px;}
+  .video-cat h3{font-size:17px;margin:0 0 16px;display:flex;justify-content:space-between;align-items:center;}
+  .video-cat h3 .count{font-size:12px;color:var(--muted);font-weight:400;font-family:var(--sans);}
+  .video-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .video-card{transition:transform .3s var(--ease);}
+  .video-card:hover{transform:translateY(-4px);}
+  .video-card .ph{height:145px;border-radius:var(--radius-md);position:relative;}
+  .video-card .play{position:absolute;font-size:22px;}
+  .video-card .meta{font-size:12px;margin-top:10px;}
+  .video-card .meta .title{font-weight:600;}
+  .video-card .meta .client{color:var(--muted);font-size:11px;}
+
+  /* website grid */
+  .website-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;}
+  .website-card{
+    border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .website-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+  .browser-frame{background:var(--surface-2);padding:10px 12px;display:flex;gap:6px;align-items:center;}
+  .browser-frame span{width:8px;height:8px;border-radius:50%;background:#d8d3c4;display:inline-block;}
+  .website-card .ph{height:220px;border-radius:0;border-left:none;border-right:none;}
+  .website-card .info{padding:20px;}
+  .website-card h4{margin:0 0 8px;font-size:16px;}
+  .website-card p{margin:0 0 12px;font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .tags span{font-size:10.5px;background:var(--accent-soft);padding:4px 10px;border-radius:999px;color:var(--accent);font-weight:600;}
+  .live-link{font-size:12.5px;font-weight:700;color:var(--accent);}
+
+  /* ===== ảnh thật (thay cho khối .ph placeholder) — dùng khi bạn tự sửa tay file ===== */
+  .grid-img{width:100%;display:block;object-fit:cover;border-radius:var(--radius-md);}
+  .grid-img.round{width:140px;height:140px;border-radius:50%;margin:0 auto 16px;}
+  .grid-img.flat{border-radius:0;}
+  .design-grid figure{margin:0 0 18px;break-inside:avoid;}
+  .design-grid figure img{width:100%;display:block;border-radius:var(--radius-md);transition:transform .3s var(--ease);}
+  .design-grid figure:hover img{transform:translateY(-3px);}
+  .design-grid figcaption{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4;}
+  .design-grid figcaption b{color:var(--ink);font-weight:600;display:block;font-size:12.5px;margin-bottom:2px;}
+  .video-card .thumb-wrap{position:relative;height:145px;border-radius:var(--radius-md);overflow:hidden;}
+  .video-card .thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+  .video-card .thumb-wrap .playdot{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:#fff;background:rgba(20,18,16,0.18);text-shadow:0 1px 6px rgba(0,0,0,.45);
+  }
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:40px 32px;text-align:center;color:var(--muted);font-size:13px;background:var(--surface-2);}
+  footer .socials{margin-top:12px;display:flex;gap:20px;justify-content:center;font-weight:600;}
+
+  .note{
+    background:var(--accent-soft);border:1px solid rgba(204,120,92,0.25);color:var(--accent-dark, #a15b41);
+    font-size:12.5px;padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:24px;
+  }
+
+  @media(max-width:900px){
+    .hero,.services-grid,.team-grid,.testi-row,.video-row,.website-grid,.stats-row{grid-template-columns:repeat(2,1fr);}
+    .design-grid{columns:2;}
+  }
+</style>
+</head>
+<body>
+
+<!--
+  ĐÂY LÀ FILE WEBSITE PORTFOLIO — SỬA TRỰC TIẾP TRONG FILE NÀY BẰNG NOTEPAD / VS CODE.
+  Mỗi khu vực lặp lại (team, design, video, website, testimonial) có comment hướng dẫn
+  ngay phía trên, dạng "COPY khối này ... DÁN vào trên dòng ...". Xem hướng dẫn đầy đủ
+  (kèm cách thêm ảnh/video thật, cách publish lại) trong file
+  Huong_dan_them_du_an_moi.docx đi kèm.
+-->
+
+<div class="topbar">
+  <div class="logo">Team Name</div>
+  <div class="navlinks">
+    <button class="navbtn active" data-page="home">Home</button>
+    <button class="navbtn" data-page="design">Design</button>
+    <button class="navbtn" data-page="video">Video</button>
+    <button class="navbtn" data-page="website">Website</button>
+  </div>
+  <button class="cta-btn">Liên hệ ngay</button>
+</div>
+
+<!-- ============ HOME ============ -->
+<div class="page active" id="home">
+
+  <section class="hero">
+    <div>
+      <span class="label-tag">Marketing Freelance Team</span>
+      <h1>Chúng tôi biến ý tưởng thành nội dung khiến khách hàng của bạn dừng lướt.</h1>
+      <p>Edit video, viết content, xây kênh &amp; branding trọn gói — cho thương hiệu muốn lớn nhanh trên social.</p>
+      <div class="hero-ctas">
+        <button class="cta-btn">Xem báo giá dịch vụ</button>
+        <button class="btn-outline">Xem thành phẩm</button>
+      </div>
+    </div>
+    <div class="ph">[Video demo giới thiệu team / showreel 30-60s]</div>
+  </section>
+
+  <section>
+    <span class="label-tag">Dịch vụ</span>
+    <h1 class="section-title">3 dịch vụ chính</h1>
+    <p class="section-sub">Mỗi card link thẳng sang trang thành phẩm tương ứng.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="ph">[Ảnh/GIF kết quả edit video]</div>
+        <h3>Edit Video</h3>
+        <p>Reels, TikTok, YouTube, quảng cáo — cắt dựng theo phong cách thương hiệu.</p>
+        <span class="link">Xem thành phẩm Video →</span>
+      </div>
+      <div class="service-card">
+        <div class="ph">[Ảnh mẫu content/caption]</div>
+        <h3>Content (ăn theo sản phẩm)</h3>
+        <p>Viết content bám sát sản phẩm, tối ưu chuyển đổi.</p>
+        <span class="link">Xem mẫu content →</span>
+      </div>
+      <div class="service-card">
+        <div class="ph">[Ảnh branding kit / kênh mẫu]</div>
+        <h3>Xây kênh - Branding (gói)</h3>
+        <p>Xây dựng kênh từ 0, định vị thương hiệu, bộ nhận diện.</p>
+        <span class="link">Xem case study →</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="stats-row" id="stats-row">
+      <div class="stat"><div class="num">[00]</div><div class="lbl">Dự án đã làm</div></div>
+      <div class="stat"><div class="num">[00]</div><div class="lbl">Khách hàng</div></div>
+      <div class="stat"><div class="num">[00]</div><div class="lbl">Video/Content đã sản xuất</div></div>
+      <div class="stat"><div class="num">[00]</div><div class="lbl">Năm kinh nghiệm</div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="label-tag">Đội ngũ</span>
+    <h1 class="section-title">Thông tin từng thành viên</h1>
+    <p class="section-sub">Ảnh chân dung, vai trò, kỹ năng chính, link social/portfolio riêng (nếu có).</p>
+    <div class="team-grid" id="team-grid">
+      <!-- ===== MỖI THÀNH VIÊN = 1 KHỐI <div class="team-card">...</div>.
+           Để thêm người mới: copy nguyên 1 khối team-card bên dưới, dán vào ngay TRÊN
+           dòng "THÊM THÀNH VIÊN MỚI Ở TRÊN DÒNG NÀY", rồi sửa Ảnh/Tên/Vai trò/Kỹ năng.
+           Ảnh thật: thay <div class="ph">[Ảnh]</div> bằng
+           <img class="grid-img round" src="images/ten-file.jpg" alt="Tên"> ===== -->
+      <div class="team-card">
+        <div class="ph">[Ảnh]</div>
+        <h4>Tên thành viên 1</h4>
+        <div class="role">Video Editor</div>
+        <div class="skills">Premiere · CapCut · Motion GFX</div>
+      </div>
+      <div class="team-card">
+        <div class="ph">[Ảnh]</div>
+        <h4>Tên thành viên 2</h4>
+        <div class="role">Content Writer</div>
+        <div class="skills">Copywriting · SEO · Storytelling</div>
+      </div>
+      <div class="team-card">
+        <div class="ph">[Ảnh]</div>
+        <h4>Tên thành viên 3</h4>
+        <div class="role">Brand / Channel Strategist</div>
+        <div class="skills">Branding · Kế hoạch kênh</div>
+      </div>
+      <div class="team-card">
+        <div class="ph">[Ảnh]</div>
+        <h4>Tên thành viên 4</h4>
+        <div class="role">Designer</div>
+        <div class="skills">Thumbnail · Social post · Poster</div>
+      </div>
+      <!-- ===== THÊM THÀNH VIÊN MỚI Ở TRÊN DÒNG NÀY ===== -->
+    </div>
+  </section>
+
+  <section>
+    <span class="label-tag">Khách hàng nói gì</span>
+    <h1 class="section-title">Testimonials / Logo khách hàng</h1>
+    <div class="testi-row" id="testi-row">
+      <!-- ===== MỖI REVIEW = 1 KHỐI <div class="testi-card">...</div>. Copy 1 khối, dán
+           trên dòng "THÊM REVIEW MỚI...", sửa câu trích dẫn + tên khách. ===== -->
+      <div class="testi-card">"[Trích dẫn feedback khách hàng 1...]"<div class="who">— Tên, thương hiệu</div></div>
+      <div class="testi-card">"[Trích dẫn feedback khách hàng 2...]"<div class="who">— Tên, thương hiệu</div></div>
+      <div class="testi-card">"[Trích dẫn feedback khách hàng 3...]"<div class="who">— Tên, thương hiệu</div></div>
+      <!-- ===== THÊM REVIEW MỚI Ở TRÊN DÒNG NÀY ===== -->
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ DESIGN ============ -->
+<div class="page" id="design">
+  <div class="note">Cách thêm dự án mới: xem comment trong code ngay dưới đây, hoặc file Huong_dan_them_du_an_moi.docx.</div>
+  <span class="label-tag">Design</span>
+  <h1 class="section-title">Toàn bộ thành phẩm thiết kế</h1>
+  <p class="section-sub">Lọc theo loại, click ảnh mở lightbox xem full size + tên dự án/khách hàng.</p>
+
+  <div class="filter-tabs" id="design-filter">
+    <div class="tab active" data-filter="all">Tất cả</div>
+    <div class="tab" data-filter="Thumbnail">Thumbnail</div>
+    <div class="tab" data-filter="Social Post">Social Post</div>
+    <div class="tab" data-filter="Poster / Banner">Poster / Banner</div>
+    <div class="tab" data-filter="Branding Kit">Branding Kit</div>
+    <div class="tab" data-filter="Presentation">Presentation</div>
+  </div>
+
+  <div class="design-grid" id="design-grid">
+    <!-- ===== MỖI ẢNH = 1 KHỐI <div class="ph ..." data-category="...">...</div>.
+         Để thêm ảnh mới: copy 1 khối bên dưới, dán trên dòng "THÊM ẢNH MỚI...".
+         data-category PHẢI là 1 trong: Thumbnail, Social Post, Poster / Banner,
+         Branding Kit, Presentation (để nút lọc phía trên hoạt động đúng).
+         Ảnh thật: thay <div class="ph ...">[...]</div> bằng
+         <figure data-category="Thumbnail"><img src="images/ten-file.jpg" alt="Tên dự án">
+         <figcaption><b>Tên dự án</b>Tên khách hàng</figcaption></figure> ===== -->
+    <div class="ph h1" data-category="Thumbnail">[Design 1 - Thumbnail]</div>
+    <div class="ph h2" data-category="Poster / Banner">[Design 2 - Poster]</div>
+    <div class="ph h3" data-category="Social Post">[Design 3 - Social Post]</div>
+    <div class="ph h4" data-category="Branding Kit">[Design 4 - Branding]</div>
+    <div class="ph h2" data-category="Thumbnail">[Design 5 - Thumbnail]</div>
+    <div class="ph h1" data-category="Poster / Banner">[Design 6 - Poster]</div>
+    <div class="ph h3" data-category="Social Post">[Design 7 - Social Post]</div>
+    <div class="ph h4" data-category="Presentation">[Design 8 - Presentation]</div>
+    <div class="ph h1" data-category="Thumbnail">[Design 9 - Thumbnail]</div>
+    <div class="ph h2" data-category="Branding Kit">[Design 10 - Branding]</div>
+    <div class="ph h3" data-category="Poster / Banner">[Design 11 - Poster]</div>
+    <div class="ph h4" data-category="Social Post">[Design 12 - Social Post]</div>
+    <!-- ===== THÊM ẢNH MỚI Ở TRÊN DÒNG NÀY ===== -->
+  </div>
+  <button class="loadmore">Xem thêm</button>
+</div>
+
+<!-- ============ VIDEO ============ -->
+<div class="page" id="video">
+  <div class="note">Cách thêm video mới: xem comment trong code ngay dưới đây, hoặc file Huong_dan_them_du_an_moi.docx.</div>
+  <span class="label-tag">Video</span>
+  <h1 class="section-title">Toàn bộ thành phẩm video</h1>
+  <p class="section-sub">Chia theo mục, click thumbnail để phát trực tiếp trên trang (modal player).</p>
+
+  <div class="filter-tabs" id="video-filter">
+    <div class="tab active" data-filter="all">Tất cả</div>
+    <div class="tab" data-filter="Reels / TikTok">Reels / TikTok</div>
+    <div class="tab" data-filter="YouTube">YouTube</div>
+    <div class="tab" data-filter="TVC / Quảng cáo">TVC / Quảng cáo</div>
+    <div class="tab" data-filter="Event / Behind-the-scene">Event / Behind-the-scene</div>
+  </div>
+
+  <div id="video-cats">
+  <!-- ===== THÊM VIDEO VÀO 1 MỤC CÓ SẴN: copy 1 khối <div class="video-card">...</div>
+       trong .video-row tương ứng, dán vào cuối hàng đó, sửa link + tên + khách hàng.
+       Ảnh thumbnail thật: thay <div class="ph">▶ [...]</div> bằng
+       <div class="thumb-wrap"><img src="images/ten-file.jpg" alt="Tên video"><div class="playdot">▶</div></div>
+       Video card nên là link: bọc bằng <a class="video-card" href="LINK_YOUTUBE_HOẶC_TIKTOK"
+       target="_blank" rel="noopener">...</a> thay vì <div class="video-card">.
+
+       THÊM 1 MỤC (category) MỚI: copy nguyên khối <div class="video-cat" data-category="...">
+       ...</div> bên dưới (từ đầu đến cuối, gồm cả tiêu đề h3 và .video-row), dán trên dòng
+       "THÊM MỤC VIDEO MỚI Ở TRÊN DÒNG NÀY". data-category PHẢI là 1 trong: Reels / TikTok,
+       YouTube, TVC / Quảng cáo, Event / Behind-the-scene — để nút lọc phía trên hoạt động đúng. ===== -->
+  <div class="video-cat" data-category="Reels / TikTok">
+    <h3>Reels / TikTok <span class="count">[00] video</span></h3>
+    <div class="video-row">
+      <div class="video-card"><div class="ph">▶ [Thumb 1]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:30</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 2]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:45</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 3]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:20</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 4]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:35</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-cat" data-category="YouTube">
+    <h3>YouTube <span class="count">[00] video</span></h3>
+    <div class="video-row">
+      <div class="video-card"><div class="ph">▶ [Thumb 1]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 8:20</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 2]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 12:10</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 3]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 5:40</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 4]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 9:00</div></div></div>
+    </div>
+  </div>
+
+  <div class="video-cat" data-category="TVC / Quảng cáo">
+    <h3>TVC / Quảng cáo <span class="count">[00] video</span></h3>
+    <div class="video-row">
+      <div class="video-card"><div class="ph">▶ [Thumb 1]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 1:00</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 2]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:30</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 3]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 1:20</div></div></div>
+      <div class="video-card"><div class="ph">▶ [Thumb 4]</div><div class="meta"><div class="title">Tên video</div><div class="client">Khách hàng · 0:45</div></div></div>
+    </div>
+  </div>
+  <!-- ===== THÊM MỤC VIDEO MỚI Ở TRÊN DÒNG NÀY ===== -->
+  </div>
+
+</div>
+
+<!-- ============ WEBSITE ============ -->
+<div class="page" id="website">
+  <div class="note">Cách thêm dự án mới: xem comment trong code ngay dưới đây, hoặc file Huong_dan_them_du_an_moi.docx.</div>
+  <span class="label-tag">Website</span>
+  <h1 class="section-title">Toàn bộ thành phẩm website</h1>
+  <p class="section-sub">Screenshot trong khung browser, tag công nghệ/loại hình, link xem live hoặc case study.</p>
+
+  <div class="website-grid" id="website-grid">
+    <!-- ===== MỖI DỰ ÁN = 1 KHỐI <div class="website-card">...</div>. Copy 1 khối bên dưới,
+         dán trên dòng "THÊM WEBSITE MỚI...". Ảnh thật: thay <div class="ph">[...]</div>
+         bằng <img class="grid-img flat" style="height:220px;" src="images/ten-file.jpg"
+         alt="Tên dự án">. Sửa "Xem live →" thành <a class="live-link" href="LINK_WEB_THẬT"
+         target="_blank" rel="noopener">Xem live →</a>. ===== -->
+    <div class="website-card">
+      <div class="browser-frame"><span></span><span></span><span></span></div>
+      <div class="ph">[Screenshot website 1]</div>
+      <div class="info">
+        <h4>Tên dự án 1</h4>
+        <p>Mô tả ngắn: loại website, mục tiêu, kết quả.</p>
+        <div class="tags"><span>Landing Page</span><span>Wordpress</span></div>
+        <span class="live-link">Xem live →</span>
+      </div>
+    </div>
+    <div class="website-card">
+      <div class="browser-frame"><span></span><span></span><span></span></div>
+      <div class="ph">[Screenshot website 2]</div>
+      <div class="info">
+        <h4>Tên dự án 2</h4>
+        <p>Mô tả ngắn: loại website, mục tiêu, kết quả.</p>
+        <div class="tags"><span>E-commerce</span><span>Shopify</span></div>
+        <span class="live-link">Xem live →</span>
+      </div>
+    </div>
+    <div class="website-card">
+      <div class="browser-frame"><span></span><span></span><span></span></div>
+      <div class="ph">[Screenshot website 3]</div>
+      <div class="info">
+        <h4>Tên dự án 3</h4>
+        <p>Mô tả ngắn: loại website, mục tiêu, kết quả.</p>
+        <div class="tags"><span>Portfolio</span><span>Webflow</span></div>
+        <span class="live-link">Xem live →</span>
+      </div>
+    </div>
+    <div class="website-card">
+      <div class="browser-frame"><span></span><span></span><span></span></div>
+      <div class="ph">[Screenshot website 4]</div>
+      <div class="info">
+        <h4>Tên dự án 4</h4>
+        <p>Mô tả ngắn: loại website, mục tiêu, kết quả.</p>
+        <div class="tags"><span>Corporate</span><span>Custom code</span></div>
+        <span class="live-link">Xem live →</span>
+      </div>
+    </div>
+    <!-- ===== THÊM WEBSITE MỚI Ở TRÊN DÒNG NÀY ===== -->
+  </div>
+</div>
+
+<footer>
+  <div>© 2026 Team Name — Marketing Freelance</div>
+  <div class="socials"><span>Facebook</span><span>Instagram</span><span>Zalo</span><span>Email</span></div>
+</footer>
+
+<script>
+  /* ================= Chuyển trang (Home / Design / Video / Website) ================= */
+  const btns = document.querySelectorAll('.navbtn');
+  const pages = document.querySelectorAll('.page');
+  btns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      btns.forEach(b=>b.classList.remove('active'));
+      pages.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.page).classList.add('active');
+      window.scrollTo(0,0);
+    });
+  });
+
+  /* ================= Lọc theo danh mục (dùng chung cho Design & Video) =================
+     Danh sách tab là CỐ ĐỊNH (Thumbnail, Poster/Banner...). Khi copy-paste thêm 1 sản phẩm
+     mới, nhớ set đúng data-category="..." trùng với 1 trong các giá trị tab để lọc đúng. */
+  function wireFilterTabs(tabsEl, itemsSelector){
+    if(!tabsEl) return;
+    const tabs = tabsEl.querySelectorAll('.tab');
+    tabs.forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        const f = tab.dataset.filter;
+        document.querySelectorAll(itemsSelector).forEach(el=>{
+          el.style.display = (f==='all' || el.dataset.category===f) ? '' : 'none';
+        });
+      });
+    });
+  }
+  wireFilterTabs(document.getElementById('design-filter'), '#design-grid > *');
+  wireFilterTabs(document.getElementById('video-filter'), '#video-cats > .video-cat');
+</script>
+
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
